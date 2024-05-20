@@ -1,10 +1,10 @@
-// import Home from "./assets/";
+import Home from "./components/home";
 // import navigation from "./assets/location-icon.svg";
 import { useState } from "react";
 import earth from "./assets/test.png";
 import "./App.css";
 import cities from "./cities.json";
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+// const { GoogleGenerativeAI } = require("@google/generative-ai");
 // import location-icon.svg from './'
 function App() {
   const [dropDown, setDropdown] = useState(false);
@@ -13,18 +13,15 @@ function App() {
   // const [placeHolder, setPlaceHolder] = useState("");
   return (
     <div className="main">
-      <nav>
-        <h1 className="heading">Weather App</h1>
-      </nav>
+      <h1 className="heading">Weather App</h1>
       <div className="container">
         <div className="search-bar">
           <div className="input-group">
             <span className="input-group-text" id="basic-addon1">
-              <img src={earth}></img>
+              <img src={earth} alt="city"></img>
             </span>
             <input
               type="text"
-              className="form-control"
               placeholder="Enter you City Here"
               aria-label="Username"
               value={cityName}
@@ -51,7 +48,8 @@ function App() {
           )}
         </div>
       </div>
-      {/* <Home /> */}
+
+      <Home />
     </div>
   );
 
@@ -78,31 +76,28 @@ function App() {
       setCityList([]);
     }
   }
-  function test() {
-    setDropdown(!dropDown);
-  }
 }
 
-function getBestPlaces() {
-  console.log("the places are", cities);
-}
+// function getBestPlaces() {
+//   console.log("the places are", cities);
+// }
 
-async function run() {
-  // For text-only input, use the gemini-pro model
+// async function run() {
+//   // For text-only input, use the gemini-pro model
 
-  const genAI = new GoogleGenerativeAI(
-    "AIzaSyBLL2wllfkbbCl4LE3_HotOLkPdx07b2aA"
-  );
+//   const genAI = new GoogleGenerativeAI(
+//     "AIzaSyBLL2wllfkbbCl4LE3_HotOLkPdx07b2aA"
+//   );
 
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+//   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-  const prompt = "Best places to visit in Anantapur,Andhra Pradesh.";
+//   const prompt = "Best places to visit in Anantapur,Andhra Pradesh.";
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
-  console.log(text);
-}
+//   const result = await model.generateContent(prompt);
+//   const response = await result.response;
+//   const text = response.text();
+//   console.log(text);
+// }
 
 // run();
 
