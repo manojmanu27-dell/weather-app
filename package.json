@@ -1,6 +1,7 @@
 {
+  "homepage": "http://manojmanu27-dell/weather-app",
   "name": "weather-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@google/generative-ai": "^0.11.3",
