@@ -18,6 +18,7 @@ function App() {
 
   useEffect(() => {
     console.log("prcoess environmentis", process.env);
+    console.log("the prcoess variables are ", process);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
         console.log("the position is", position.coords);
