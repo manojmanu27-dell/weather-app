@@ -1,8 +1,8 @@
 .main {
-  height: 100svh;
-  background: rgb(78,218,137);
-background: linear-gradient(90deg, rgba(78,218,137,1) 0%, rgba(61,222,209,1) 38%, rgba(0,255,201,1) 100%);
- }
+min-height: 100svh;
+  background: rgb(78, 218, 137);
+  background: linear-gradient(90deg, rgba(78, 218, 137, 1) 0%, rgba(61, 222, 209, 1) 38%, rgba(0, 255, 201, 1) 100%);
+}
 
 .heading {
   font-family: system-ui;
@@ -14,6 +14,11 @@ background: linear-gradient(90deg, rgba(78,218,137,1) 0%, rgba(61,222,209,1) 38%
   display: grid;
   justify-content: center;
   margin-top: 26px;
+}
+
+.search-bar {
+  position: relative;
+  height: 40px;
 }
 
 .search-bar .input-group input {
@@ -28,6 +33,7 @@ background: linear-gradient(90deg, rgba(78,218,137,1) 0%, rgba(61,222,209,1) 38%
 
 .dropDown .list-group .list-group-item {
   border: none;
+  border-radius: 0;
 }
 
 .input-group-text {
@@ -35,14 +41,33 @@ background: linear-gradient(90deg, rgba(78,218,137,1) 0%, rgba(61,222,209,1) 38%
 }
 
 .dropDown {
+  left: 266px;
+  width: 36.5rem;
   max-height: 12rem;
+  position: absolute;
+  top: 100%;
   overflow: hidden;
   border: 1px solid #dee1e6;
   z-index: 10;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 @media screen and (max-width:650px) {
   .search-bar .input-group input {
     width: 18rem;
   }
+
+  .dropDown {
+    left: 4px;
+    width: 20.5rem;
+  }
+}
+
+.no-content{
+  align-items: center;
+  display: flex;
+  height: 50svh;
+  justify-content: center;
+  font-weight: 500;
 }

@@ -4,7 +4,7 @@
             "content": {
                 "parts": [
                     {
-                        "text": "**Historical Sites:**\n\n* **Penukonda Fort:** A massive hillside fort built by the Vijayanagara Empire, offering panoramic views and historical significance.\n* **Lepakshi Temple:** An ancient Hindu temple known for its intricate carvings, monolithic Nandi bull, and hanging pillar.\n* **Bugga Ramalingeswara Swamy Temple:** A scenic temple located in a natural cave, known for its unique architecture and holy atmosphere.\n\n**Natural Wonders:**\n\n* **Galikonda Caves:** A network of ancient caves with Buddhist carvings and sculptures, located amidst a picturesque landscape.\n* **Belum Caves:** One of the longest and most spectacular cave systems in India, offering an unforgettable subterranean experience.\n* **Lambasingi Hills:** Known as the \"Kashmir of Andhra Pradesh,\" these hills offer stunning views, lush greenery, and unique wildflowers.\n\n**Cultural Attractions:**\n\n* **Archaeological Museum:** Houses a collection of artifacts and exhibits from the region's rich history, including the Vijayanagara period.\n* **Dharmavaram Silk Saree Weaving Center:** Witness the intricate process of creating the renowned Dharmavaram silk sarees, famous for their vibrant colors and exquisite designs.\n* **Government Arts College:** Known for its beautiful architecture and vibrant campus, this college is a hub of art and culture.\n\n**Other Places of Interest:**\n\n* **Sri Satya Sai Baba Bhajan Mandir:** A spiritual center and pilgrimage site dedicated to the late spiritual leader Sai Baba.\n* **Sri Kalahasti Temple:** A Hindu temple dedicated to Lord Shiva, known for its sacred waters and healing powers.\n* **Anantapuramu Thermal Power Station:** A major power generation facility that offers guided tours for visitors."
+                        "text": "1. **Anantapur Temple:** This ancient temple, built in the 16th century, is dedicated to Lord Vishnu and is known for its intricate carvings and sculptures.\n\n2. **Bugga Ramalingeswara Swamy Temple:** Located about 12 km from Anantapur, this temple is situated on a hilltop and offers panoramic views of the surrounding countryside. It is known for its unique architecture and the presence of a cave temple dedicated to Lord Shiva.\n\n3. **Penukonda Fort:** A 16th-century fortress built by the Vijayanagara rulers, Penukonda Fort is one of the largest and best-preserved forts in Andhra Pradesh. It features massive granite walls, bastions, and a moat, and offers a glimpse into the region's rich history."
                     }
                 ],
                 "role": "model"
@@ -32,8 +32,8 @@
         }
     ],
     "usageMetadata": {
-        "promptTokenCount": 14,
-        "candidatesTokenCount": 356,
-        "totalTokenCount": 370
+        "promptTokenCount": 16,
+        "candidatesTokenCount": 165,
+        "totalTokenCount": 181
     }
 }
