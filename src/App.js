@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import location from "./assets/location.png";
 import "./App.css";
 import cities from "./cities.json";
-import airesponse from "./response.json";
+// import airesponse from "./response.json";
 import Footer from "./layout/Footer";
 import arrowUp from "./assets/increase.png";
 import axios from "axios";
 import moment from "moment";
-import PopupGfg from "./components/alert/alert";
+// import PopupGfg from "./components/alert/alert";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
   const [cityName, setCityName] = useState("");
   const [cityList, setCityList] = useState([]);
   const [weatherData, setWeatherData] = useState("");
-  const [aiSuggestion, setAiSuggestion] = useState('');
+  const [aiSuggestion, setAiSuggestion] = useState("");
   const [forecastData, setForecastData] = useState([]);
   const [showHomePg, setShowHomePg] = useState(false);
   const [airQuality, setAirQuaity] = useState(false);
@@ -85,6 +85,7 @@ function App() {
             }
             setForecastData(forecastArr);
             setLoader(false);
+            setShowHomePg(true);
           })
           .catch((err) => {
             setLoader(false);
@@ -114,7 +115,7 @@ function App() {
           );
           if (defaultCity.length > 0) {
             setCityName(defaultCity[0].name + "," + defaultCity[0].state);
-            suggestionType('')
+            suggestionType("");
           }
         } else {
           setWeatherData({});
@@ -230,7 +231,6 @@ function App() {
     setCityName(obj.name + "," + obj.state);
     setCityList([]);
     setDropdown(false);
-    setShowHomePg(true);
     let url = `https://api.openweathermap.org/geo/1.0/direct?q=${obj.name}&appid=${weatherKey}`;
     axios.get(url).then((res) => {
       console.log("The api respomse s", res);
@@ -238,7 +238,7 @@ function App() {
         latitude: res.data[0].lat,
         longitude: res.data[0].lon,
       };
-      suggestionType('')
+      suggestionType("");
       getWeatherData(obj);
     });
     // run();

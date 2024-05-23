@@ -121,7 +121,7 @@ export default function Home({
                 <div className="radio-btn">
                   <input
                     type="radio"
-                    class="form-check-input"
+                    className="form-check-input"
                     value={sugAgri}
                     onClick={(e) => {
                       handleSuggestions(e, "Agriculture");
@@ -133,7 +133,7 @@ export default function Home({
                 <div className="radio-btn">
                   <input
                     type="radio"
-                    class="form-check-input"
+                    className="form-check-input"
                     value={sugTra}
                     onClick={(e) => {
                       handleSuggestions(e, "Travel");
@@ -151,7 +151,7 @@ export default function Home({
             {/* {showMsg && (
               <div className="loading-content">
                 <h5 className="text-center">Suggestions are on the way</h5>
-                <span class="loader"></span>
+                <span className="loader"></span>
               </div>
             )} */}
           </div>
