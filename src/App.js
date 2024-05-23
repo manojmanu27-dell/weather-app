@@ -7,6 +7,8 @@ import airesponse from "./response.json";
 import Footer from "./layout/Footer";
 import arrowUp from "./assets/increase.png";
 import axios from "axios";
+import moment from "moment";
+import Loader from "./components/loader";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 function App() {
@@ -14,11 +16,12 @@ function App() {
   const [cityName, setCityName] = useState("");
   const [cityList, setCityList] = useState([]);
   const [weatherData, setWeatherData] = useState("");
+  const [forecastData, setForecastData] = useState([]);
   const [showHomePg, setShowHomePg] = useState(false);
-
+  const [airQuality, setAirQuaity] = useState(false);
+  let weatherKey = "97d9bbd401729426e9ac72dbd7caec67sad";
   useEffect(() => {
     console.log("prcoess environmentis", process.env);
-    console.log("the prcoess variables are ", process);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
         console.log("the position is", position.coords);
@@ -35,72 +38,135 @@ function App() {
 
   function getWeatherData(position) {
     console.log("the positions we are receiving are", position);
-    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${position.latitude}&lon=${position.longitude}&appid=97d9bbd401729426e9ac72dbd7caec67&units=metric`;
-    axios.get(url).then((res) => {
-      console.log("the response is", res);
-      if (res.data) {
-        setWeatherData(res.data);
-        setShowHomePg(true);
-        let defaultCity = cities.filter((obj) =>
-          obj.name.toLowerCase().includes(res.data.name.toLowerCase())
-        );
-        if (defaultCity.length > 0) {
-          setCityName(defaultCity[0].name + "," + defaultCity[0].state);
+    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${position.latitude}&lon=${position.longitude}&appid=${weatherKey}&units=metric`;
+    let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${position.latitude}&lon=${position.longitude}&appid=${weatherKey}&units=metric`;
+    let airQualityUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${position.latitude}&lon=${position.longitude}&appid=${weatherKey}`;
+    axios
+      .get(url)
+      .then((res) => {
+        axios.get(forecastUrl).then((res) => {
+          console.log("the forecase data is", res);
+          let arr = res.data.list;
+          let day = moment().format("dddd");
+          let today = moment().add(1, "day").startOf("day").valueOf();
+          let j = 1;
+          let temp = 0;
+          let humidity = 0;
+          let windSpeed = 0;
+          let divideVal = 0;
+          let forecastArr = [];
+          for (let i = 0; i < arr.length; i++) {
+            if (today - arr[i].dt * 1000 > 0) {
+              temp += arr[i].main.temp;
+              humidity += arr[i].main.humidity;
+              windSpeed += arr[i].wind.speed;
+              divideVal++;
+              console.log("the data is ", j, arr[i].dt_txt);
+            } else {
+              forecastArr.push({
+                day: day,
+                temp: parseFloat(temp / divideVal).toFixed(2),
+                humidity: parseFloat(humidity / divideVal).toFixed(2),
+                windSpeed: parseFloat(windSpeed / divideVal).toFixed(2),
+              });
+              divideVal = 0;
+              temp = 0;
+              humidity = 0;
+              windSpeed = 0;
+              j++;
+              day = moment(today).format("dddd");
+              today = moment().add(j, "day").startOf("day").valueOf();
+            }
+          }
+          setForecastData(forecastArr);
+        });
+        axios.get(airQualityUrl).then((airData) => {
+          console.log("the airData data is", airData);
+          let obj = {
+            1: "Good",
+            2: "Fair",
+            3: "Moderate",
+            4: "Poor",
+            5: "Very Poor",
+          };
+          setAirQuaity(obj[airData.data.list[0].main.aqi]);
+        });
+        console.log("the response is", res);
+        if (res.data) {
+          setWeatherData(res.data);
+          setShowHomePg(true);
+          let defaultCity = cities.filter((obj) =>
+            obj.name.toLowerCase().includes(res.data.name.toLowerCase())
+          );
+          if (defaultCity.length > 0) {
+            setCityName(defaultCity[0].name + "," + defaultCity[0].state);
+          }
+        } else {
+          setWeatherData({});
+          setShowHomePg(false);
         }
-      } else {
-        setWeatherData({});
-        setShowHomePg(false);
-      }
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
-    <div className="main">
-      <h1 className="heading">Weather App</h1>
-      <div className="container">
-        <div className="search-bar">
-          <div className="input-group">
-            <span className="input-group-text" id="basic-addon1">
-              <img src={location} alt="city"></img>
-            </span>
-            <input
-              type="text"
-              placeholder="Enter you City Here"
-              aria-label="Username"
-              value={cityName}
-              onChange={(e) => handleInputChange(e)}
-            />
-          </div>
-          {dropDown && cityList.length > 0 && (
-            <div className="dropDown">
-              <ul className="list-group">
-                {cityList.map((v) => {
-                  return (
-                    <li
-                      className="list-group-item"
-                      key={v.id}
-                      aria-current="true"
-                      onClick={() => selectCityObj(v)}
-                    >
-                      {v.name + "," + v.state}
-                    </li>
-                  );
-                })}
-              </ul>
+    <>
+      <Loader />
+      <div className="main">
+        <h1 className="heading">Weather App</h1>
+        <div className="container">
+          <div className="search-bar">
+            <div className="input-group">
+              <span className="input-group-text" id="basic-addon1">
+                <img src={location} alt="city"></img>
+              </span>
+              <input
+                type="text"
+                placeholder="Enter you City Here"
+                aria-label="Username"
+                value={cityName}
+                onChange={(e) => handleInputChange(e)}
+              />
             </div>
-          )}
+            {dropDown && cityList.length > 0 && (
+              <div className="dropDown">
+                <ul className="list-group">
+                  {cityList.map((v) => {
+                    return (
+                      <li
+                        className="list-group-item"
+                        key={v.id}
+                        aria-current="true"
+                        onClick={() => selectCityObj(v)}
+                      >
+                        {v.name + "," + v.state}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      {showHomePg && <Home weatherInfo={weatherData} />}
-      {!showHomePg && (
-        <div className="no-content">
-          Please select city from Dropdown
-          <img src={arrowUp} alt="arrow up" />
-        </div>
-      )}
-      <Footer />
-    </div>
+        {showHomePg && (
+          <Home
+            weatherInfo={weatherData}
+            airQuality={airQuality}
+            forecastInfo={forecastData}
+          />
+        )}
+        {!showHomePg && (
+          <div className="no-content">
+            Please select city from Dropdown
+            <img src={arrowUp} alt="arrow up" />
+          </div>
+        )}
+        <Footer />
+      </div>
+    </>
   );
   async function run() {
     // For text-only input, use the gemini-pro model
@@ -126,8 +192,15 @@ function App() {
     setCityList([]);
     setDropdown(false);
     setShowHomePg(true);
-    let url = `https://api.openweathermap.org/geo/1.0/direct?q=${obj.name}&appid=97d9bbd401729426e9ac72dbd7caec67`;
-    axios.get(url);
+    let url = `https://api.openweathermap.org/geo/1.0/direct?q=${obj.name}&appid=${weatherKey}`;
+    axios.get(url).then((res) => {
+      console.log("The api respomse s", res);
+      let obj = {
+        latitude: res.data[0].lat,
+        longitude: res.data[0].lon,
+      };
+      getWeatherData(obj);
+    });
     // run();
   }
   function handleInputChange(e) {
