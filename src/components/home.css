@@ -14,11 +14,12 @@
 
 .display-weather {
     margin-top: 10px;
-    width: 100%
+    width: 100%;
+    padding-bottom: 20px;
 }
 
 .suggestion-list {
-    max-height: 28rem;
+    max-height: 34.5rem
 }
 
 .card-title {
@@ -141,11 +142,15 @@
 
 /* Loader Css END */
 
-.loading-content{
+.loading-content {
     display: flex;
     justify-content: center;
 }
 
-.wind{
+.wind {
     padding-left: 0;
+}
+
+.suggestions-block{
+    text-wrap: pretty;
 }

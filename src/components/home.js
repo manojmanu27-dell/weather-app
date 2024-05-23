@@ -5,7 +5,13 @@ import windIcon from "../assets/wind.svg";
 import airIcon from "../assets/air-purifier.png";
 import "./home.css";
 
-export default function Home({weatherInfo}) {
+export default function Home({
+  weatherInfo,
+  forecastInfo,
+  airQuality,
+  suggestionType,
+  aiSuggestion,
+}) {
   const [suggestions, setSuggestions] = useState([]);
   const [sugAgri, setSugAgri] = useState(false);
   const [sugTra, setSugTra] = useState(true);
@@ -34,7 +40,10 @@ export default function Home({weatherInfo}) {
                       alt="icon"
                     />
                     <div className="col-6 p-0 sub">
-                      <span className="sub-head">{weatherInfo.main.humidity} %</span> <br />
+                      <span className="sub-head">
+                        {weatherInfo.main.humidity} %
+                      </span>{" "}
+                      <br />
                       Humidity
                     </div>
                   </div>
@@ -47,8 +56,10 @@ export default function Home({weatherInfo}) {
                       alt="icon"
                     />
                     <div className="col-6 p-0 sub">
-                      <span className="sub-head">{weatherInfo.wind.speed} Km/h</span> <br /> Wind
-                      Speed
+                      <span className="sub-head">
+                        {weatherInfo.wind.speed} m/s
+                      </span>{" "}
+                      <br /> Wind Speed
                     </div>
                   </div>
                 </div>
@@ -60,7 +71,8 @@ export default function Home({weatherInfo}) {
                       alt="icon"
                     />
                     <div className="col-6 p-0 sub">
-                      <span className="sub-head">GOOD</span> <br /> Air Quality
+                      <span className="sub-head">{airQuality}</span> <br /> Air
+                      Quality
                     </div>
                   </div>
                 </div>
@@ -69,6 +81,36 @@ export default function Home({weatherInfo}) {
           </div>
           <div className="card mt-2">
             <div className="card-title">Forecast</div>
+            <div className="card-body">
+              <table className="table table-striped table-responsive">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Temp</th>
+                    <th>Humidity</th>
+                    <th>Wind Speed (m/s)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {forecastInfo.length > 0 &&
+                    forecastInfo.map((obj, i) => {
+                      return (
+                        <tr key={i}>
+                          <td>{obj.day}</td>
+                          <td>{obj.temp} </td>
+                          <td>{obj.humidity}</td>
+                          <td>{obj.windSpeed}</td>
+                        </tr>
+                      );
+                    })}
+                  {forecastInfo.length === 0 && (
+                    <tr>
+                      <td colSpan="5"> No Data Available at this moment....</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
@@ -102,24 +144,16 @@ export default function Home({weatherInfo}) {
                 </div>
               </div>
             </div>
-            {suggestions.length > 0 &&
-              suggestions.map((obj) => {
-                return (
-                  <div className="detailsList" key={obj.serial_number}>
-                    <h6>{obj.name}</h6>
-                    <p>{obj.description}</p>
-                  </div>
-                );
-              })}
-            {suggestions.length === 0 && !showMsg && (
+            <pre className="suggestions-block">{aiSuggestion}</pre>
+            {!aiSuggestion && (
               <h5 className="text-center">Oops, Something went wrong....</h5>
             )}
-            {showMsg && (
+            {/* {showMsg && (
               <div className="loading-content">
                 <h5 className="text-center">Suggestions are on the way</h5>
                 <span class="loader"></span>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
@@ -152,6 +186,7 @@ export default function Home({weatherInfo}) {
   function handleSuggestions(e, type) {
     setShowMsg(true);
     console.log(e, type);
+    suggestionType(type);
     if (type === "Agriculture") {
       setSugTra(false);
       setSugAgri(true);
@@ -159,6 +194,7 @@ export default function Home({weatherInfo}) {
       setSugTra(true);
       setSugAgri(false);
     }
+    console.log(" the ai suggestion is", aiSuggestion);
     setTimeout(() => setShowMsg(false), 1000);
   }
 }
